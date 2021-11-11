@@ -2,8 +2,8 @@
 {
 	public enum ResourceStatus
 	{
-		Approved,
-		Pending,
-		Disabled
+		Approved = 1,
+		Pending = 2,
+		Disabled = 3
 	}
 }
