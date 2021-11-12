@@ -1,0 +1,22 @@
+﻿@model StaffDesk.Domain.Pagination.IPagedCollection
+@if (Model.TotalPages > 1)
+{
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+			@if (Model.CurrentPage > 1)
+			{
+				<li class="page-item"><a class="page-link" href="?page=@(Model.CurrentPage - 1)">Previous</a></li>
+			}
+
+			@for (var index = 1; index <= Model.TotalPages; index++)
+			{
+				<li class="page-item"><a class="page-link" href="?page=@index">@index</a></li>
+			}
+
+			@if (Model.CurrentPage < Model.TotalPages)
+			{
+				<li class="page-item"><a class="page-link" href="?page=@(Model.CurrentPage + 1)">Next</a></li>
+			}
+		</ul>
+	</nav>
+}
