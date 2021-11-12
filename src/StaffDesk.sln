@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaffDesk.Domain", "StaffDe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaffDesk.Infrastructure.Contracts", "StaffDesk.Infrastructure.Contracts\StaffDesk.Infrastructure.Contracts.csproj", "{D52D728C-C090-42FC-87F4-B021C88A19E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaffDesk.Application.Contracts", "StaffDesk.Application.Contracts\StaffDesk.Application.Contracts.csproj", "{A61CCFB9-25F6-442A-8571-2EC78D07E356}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{D52D728C-C090-42FC-87F4-B021C88A19E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D52D728C-C090-42FC-87F4-B021C88A19E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D52D728C-C090-42FC-87F4-B021C88A19E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A61CCFB9-25F6-442A-8571-2EC78D07E356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A61CCFB9-25F6-442A-8571-2EC78D07E356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A61CCFB9-25F6-442A-8571-2EC78D07E356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A61CCFB9-25F6-442A-8571-2EC78D07E356}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{AD6F9F72-FAB8-465D-BEDF-6452688A89AD} = {4F8A34E0-BAE3-4791-9E51-5AF4106C8198}
 		{B833E753-79E7-4FD5-96B3-99E4EFD9386B} = {4572AA3C-8736-4855-BC0E-C24B619F5A5D}
 		{D52D728C-C090-42FC-87F4-B021C88A19E0} = {4F8A34E0-BAE3-4791-9E51-5AF4106C8198}
+		{A61CCFB9-25F6-442A-8571-2EC78D07E356} = {523B5CA7-C03D-4FCC-AA3D-0ABB221523D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F1D7395-0148-4A6F-9F93-FF8A7B9F623D}
