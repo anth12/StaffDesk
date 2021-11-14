@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using FluentValidation;
-using StaffDesk.Application.Services;
+using StaffDesk.Application.Contracts.Department;
+using StaffDesk.Application.Contracts.HumanResource;
+using StaffDesk.Application.Department;
+using StaffDesk.Application.HumanResource;
 using StaffDesk.Application.Validation;
-using StaffDesk.Domain;
 
 namespace StaffDesk.Application
 {
@@ -13,9 +15,10 @@ namespace StaffDesk.Application
 			// Services
 			services.AddTransient<IDepartmentService, DepartmentService>();
 			services.AddTransient<IHumanResourceService, HumanResourceService>();
+			services.AddTransient<IHumanResourceSearchService, HumanResourceSearchService>();
 
 			// Validators
-			services.AddSingleton<IValidator<HumanResource>, HumanResourceValidator>();
+			services.AddSingleton<IValidator<HumanResourceUpdate>, HumanResourceUpdateValidator>();
 
 			return services;
 		}

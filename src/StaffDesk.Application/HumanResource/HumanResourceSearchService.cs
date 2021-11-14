@@ -8,22 +8,22 @@ using StaffDesk.Domain;
 using StaffDesk.Domain.Pagination;
 using StaffDesk.Infrastructure.Contracts;
 
-namespace StaffDesk.Application.Services
+namespace StaffDesk.Application.HumanResource
 {
-	internal class HumanResourceService : IHumanResourceService
+	internal class HumanResourceSearchService : IHumanResourceSearchService
 	{
 		private readonly IDataContext _dataContext;
 		private readonly int _pageSize;
 
-		public HumanResourceService(IDataContext dataContext, IConfiguration _configuration)
+		public HumanResourceSearchService(IDataContext dataContext, IConfiguration _configuration)
 		{
 			_dataContext = dataContext;
 			int.TryParse(_configuration["TotalResultsPerPage"], out _pageSize);
 		}
 
-		public async Task<PagedCollection<HumanResource>> QueryAsync(HumanResourceQuery request)
+		public async Task<PagedCollection<Domain.HumanResource>> QueryAsync(HumanResourceQuery request)
 		{
-			IQueryable<HumanResource> query = _dataContext.HumanResource
+			IQueryable<Domain.HumanResource> query = _dataContext.HumanResource
 				.Include(r=> r.Department);
 
 			query = ApplyQueryFilters(request, query);
@@ -33,14 +33,14 @@ namespace StaffDesk.Application.Services
 			var totalItems = query.Count();
 			var results = await query.Skip((request.Page- 1) * _pageSize).Take(_pageSize).ToListAsync();
 
-			return new PagedCollection<HumanResource>(
+			return new PagedCollection<Domain.HumanResource>(
 				items: results,
 				totalItems: totalItems,
 				currentPage: request.Page,
 				pageSize: _pageSize);
 		}
 
-		private static IQueryable<HumanResource> ApplyQueryFilters(HumanResourceQuery request, IQueryable<HumanResource> query)
+		private static IQueryable<Domain.HumanResource> ApplyQueryFilters(HumanResourceQuery request, IQueryable<Domain.HumanResource> query)
 		{
 			if (request.DepartmentId != null)
 			{
@@ -55,7 +55,7 @@ namespace StaffDesk.Application.Services
 			return query;
 		}
 
-		private static IQueryable<HumanResource> ApplyQueryOrdering(IQueryable<HumanResource> query, ResourceSortOrder sortOrder)
+		private static IQueryable<Domain.HumanResource> ApplyQueryOrdering(IQueryable<Domain.HumanResource> query, ResourceSortOrder sortOrder)
 		{
 			switch (sortOrder)
 			{
