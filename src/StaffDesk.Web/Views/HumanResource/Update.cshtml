@@ -1,0 +1,65 @@
+﻿@using StaffDesk.Domain
+@model HumanResourcesUpdateViewModel
+@{
+	if (Model.HumanResource == null)
+	{
+		ViewData["Title"] = "Create Human Resources";
+	}
+	else
+	{
+		ViewData["Title"] = $"Edit {Model.HumanResource.FirstName} {Model.HumanResource.LastName}";
+	}
+}
+
+<a asp-action="Index" class="btn btn-info">Back to list</a>
+
+<div asp-validation-summary="All" class="alert alert-danger mt-4"></div>
+
+<form method="post">
+
+	<div class="form-group">
+		<label asp-for="HumanResource.FirstName">First Name</label>
+		<input asp-for="HumanResource.FirstName" class="form-control" />
+		<span asp-validation-for="HumanResource.FirstName" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="HumanResource.LastName">Last Name</label>
+		<input asp-for="HumanResource.LastName" class="form-control" />
+		<span asp-validation-for="HumanResource.LastName" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="HumanResource.EmailAddress">Email Address</label>
+		<input asp-for="HumanResource.EmailAddress" class="form-control" />
+		<span asp-validation-for="HumanResource.EmailAddress" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="HumanResource.DateOfBirth">Date of Birth</label>
+		<input asp-for="HumanResource.DateOfBirth" class="form-control" />
+		<span asp-validation-for="HumanResource.DateOfBirth" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="HumanResource.Status"></label>
+		<select asp-for="HumanResource.Status" asp-items="Model.StatusOptions" class="form-control">
+		</select>
+		<span asp-validation-for="HumanResource.Status" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="HumanResource.EmployeeNumber">Employee Number</label>
+		<input asp-for="HumanResource.EmployeeNumber" class="form-control" />
+		<span asp-validation-for="HumanResource.EmployeeNumber" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="HumanResource.DepartmentId">Department</label>
+		<select asp-for="HumanResource.DepartmentId" asp-items="Model.DepartmentsOptions" class="form-control">
+		</select>
+		<span asp-validation-for="HumanResource.DepartmentId" class="text-danger"></span>
+	</div>
+
+	<button type="submit" class="btn btn-success">Save</button>
+</form>

@@ -3,8 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using StaffDesk.Application.Contracts.Department;
 using StaffDesk.Application.Contracts.HumanResource;
-using StaffDesk.Application.Services;
+using StaffDesk.Application.Department;
 using StaffDesk.Domain;
 using StaffDesk.Web.Models;
 
@@ -14,26 +15,24 @@ namespace StaffDesk.Web.Controllers
 	public class HumanResourceController : Controller
 	{
 		private readonly IHumanResourceService _humanResourceService;
+		private readonly IHumanResourceSearchService _humanResourceSearchService;
 		private readonly IDepartmentService _departmentService;
 
-		public HumanResourceController(IHumanResourceService humanResourceService, IDepartmentService departmentService)
+		public HumanResourceController(IHumanResourceService humanResourceService, IHumanResourceSearchService humanResourceSearchService, IDepartmentService departmentService)
 		{
 			_humanResourceService = humanResourceService;
+			_humanResourceSearchService = humanResourceSearchService;
 			_departmentService = departmentService;
 		}
 
+		#region Read 
+
 		public async Task<IActionResult> Index(HumanResourceQuery query)
 		{
-			var resources = await _humanResourceService.QueryAsync(query);
-			var departments = await _departmentService.GetAllAsync();
+			var resources = await _humanResourceSearchService.QueryAsync(query);
 
-			var departmentListItems = departments
-				.Select(d => new SelectListItem(d.Name, d.Id.ToString()))
-				.ToArray();
-
-			var statusLisItems = Enum.GetValues<ResourceStatus>()
-				.Select(e => new SelectListItem(e.ToString(), e.ToString()))
-				.ToArray();
+			var departmentListItems = await GetDepartmentSelectListItemsAsync();
+			var statusLisItems = GetStatusSelectListItems();
 
 			var viewModel = new HumanResourcesListViewModel
 			{
@@ -45,10 +44,64 @@ namespace StaffDesk.Web.Controllers
 			return View(viewModel);
 		}
 
-		[Route("{id}")]
-		public IActionResult Edit(int id)
+		#endregion
+
+		#region Create
+		
+		[Route("new")]
+		public async Task<IActionResult> Create()
 		{
-			return View();
+			return await UpdateView(new HumanResourceUpdate());
+		}
+
+		[HttpPost]
+		[Route("new")]
+		public async Task<IActionResult> Create(HumanResourceUpdate humanResource)
+		{
+			if(!ModelState.IsValid)
+				return await UpdateView(humanResource);
+
+			await _humanResourceService.CrateOrUpdateAsync(humanResource);
+
+			return await UpdateView(humanResource);
+		}
+
+		#endregion
+
+
+		private async Task<IActionResult> UpdateView(HumanResourceUpdate humanResource)
+		{
+			var departmentListItems = await GetDepartmentSelectListItemsAsync();
+			var statusLisItems = GetStatusSelectListItems();
+
+			var viewModel = new HumanResourcesUpdateViewModel
+			{
+				HumanResource = humanResource,
+				DepartmentsOptions = departmentListItems,
+				StatusOptions = statusLisItems
+			};
+
+			return View("Update", viewModel);
+		}
+
+		private async Task<SelectListItem[]> GetDepartmentSelectListItemsAsync()
+		{
+			var departments = await _departmentService.GetAllAsync();
+
+			var departmentListItems = departments
+				.Select(d => new SelectListItem(d.Name, d.Id.ToString()))
+				.ToArray();
+
+			return departmentListItems;
+		}
+
+		private SelectListItem[] GetStatusSelectListItems()
+		{
+			var statusLisItems = Enum.GetValues<ResourceStatus>()
+				.Select(e => new SelectListItem(e.ToString(), e.ToString()))
+				.ToArray();
+
+			return statusLisItems;
 		}
 	}
 }
