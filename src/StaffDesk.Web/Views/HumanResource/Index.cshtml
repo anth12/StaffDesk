@@ -4,29 +4,33 @@
 	ViewData["Title"] = "Human Resources";
 }
 
-<form>
-	<div class="form-group">
-		<label asp-for="Query.Status">Status</label>
-		<select asp-for="Query.Status" asp-items="Model.StatusOptions" class="form-control">
-			<option value="">Any</option>
-		</select>
+<form class="alert alert-secondary">
+	<div class="form-row">
+		<div class="form-group col-md-3">
+			<label asp-for="Query.Status">Status</label>
+			<select asp-for="Query.Status" asp-items="Model.StatusOptions" name="Status" class="form-control">
+				<option value="">Any</option>
+			</select>
+		</div>
+		<div class="form-group col-md-4">
+			<label asp-for="Query.DepartmentId">Department</label>
+			<select asp-for="Query.DepartmentId" asp-items="Model.DepartmentsOptions" name="DepartmentId" class="form-control">
+				<option value="">Any</option>
+			</select>
+		</div>
+		<div class="form-group col-md-3">
+			<label asp-for="Query.SortOrder">Sort By</label>
+			<select asp-for="Query.SortOrder" name="SortOrder" class="form-control">
+				<option value="@ResourceSortOrder.NameAscending">Name [A-Z]</option>
+				<option value="@ResourceSortOrder.NameDescending">Name [Z-A]</option>
+				<option value="@ResourceSortOrder.DateOfBirthAscending">DoB Ascending</option>
+				<option value="@ResourceSortOrder.DateOfBirthDescending">DoB Descending</option>
+			</select>
+		</div>
+		<div class="form-group col-md-2">
+			<button type="submit" class="btn btn-primary">Search</button>
+		</div>
 	</div>
-	<div class="form-group">
-		<label asp-for="Query.DepartmentId">Department</label>
-		<select asp-for="Query.DepartmentId" asp-items="Model.DepartmentsOptions" class="form-control">
-			<option value="">Any</option>
-		</select>
-	</div>
-	<div class="form-group">
-		<label asp-for="Query.SortOrder">Sort By</label>
-		<select asp-for="Query.SortOrder" class="form-control">
-			<option value="@ResourceSortOrder.NameAscending">Name [A-Z]</option>
-			<option value="@ResourceSortOrder.NameDescending">Name [Z-A]</option>
-			<option value="@ResourceSortOrder.DateOfBirthAscending">DoB Ascending</option>
-			<option value="@ResourceSortOrder.DateOfBirthDescending">DoB Descending</option>
-		</select>
-	</div>
-	<button type="submit" class="btn btn-primary">Search</button>
 </form>
 
 <table class="table table-striped">
@@ -37,23 +41,25 @@
 			<th>Department</th>
 			<th>Status</th>
 			<th>Employee No.</th>
-			<th></th>
+			<th>
+				<a asp-action="Create" class="btn btn-success btn-sm">Create new</a>
+			</th>
 		</tr>
 	</thead>
 	<tbody>
-	@foreach (var resource in Model.HumanResources.Items)
-	{
-		<tr>
-			<td>@resource.FirstName <strong>@resource.LastName</strong></td>
-			<td>@resource.DateOfBirth?.ToString("d")</td>
-			<td>@resource.Department?.Name</td>
-			<td>@resource.Status</td>
-			<td>@resource.EmployeeNumber</td>
-			<td>
-				<a asp-action="Edit" asp-route-id="@resource.Id" class="btn btn-sm btn-info">Edit</a>
-			</td>
-		</tr>
-	}
+		@foreach (var resource in Model.HumanResources.Items)
+		{
+			<tr>
+				<td>@resource.FirstName <strong>@resource.LastName</strong></td>
+				<td>@resource.DateOfBirth?.ToString("d")</td>
+				<td>@resource.Department?.Name</td>
+				<td>@resource.Status</td>
+				<td>@resource.EmployeeNumber</td>
+				<td>
+					<a asp-action="Update" asp-route-id="@resource.Id" class="btn btn-sm btn-info">Edit</a>
+				</td>
+			</tr>
+		}
 	</tbody>
 </table>
 

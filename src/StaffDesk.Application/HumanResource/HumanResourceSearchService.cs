@@ -31,7 +31,11 @@ namespace StaffDesk.Application.HumanResource
 			query = ApplyQueryOrdering(query, request.SortOrder);
 
 			var totalItems = query.Count();
-			var results = await query.Skip((request.Page- 1) * _pageSize).Take(_pageSize).ToListAsync();
+
+			var results = await query
+				.Skip((request.Page -1) * _pageSize)
+				.Take(_pageSize)
+				.ToListAsync();
 
 			return new PagedCollection<Domain.HumanResource>(
 				items: results,
