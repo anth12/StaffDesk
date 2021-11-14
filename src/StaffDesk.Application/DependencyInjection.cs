@@ -18,7 +18,7 @@ namespace StaffDesk.Application
 			services.AddTransient<IHumanResourceSearchService, HumanResourceSearchService>();
 
 			// Validators
-			services.AddSingleton<IValidator<HumanResourceUpdate>, HumanResourceUpdateValidator>();
+			services.AddTransient<IValidator<HumanResourceUpdate>, HumanResourceUpdateValidator>();
 
 			return services;
 		}

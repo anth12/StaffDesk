@@ -1,14 +1,21 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using StaffDesk.Application.Contracts.HumanResource;
+using StaffDesk.Infrastructure.Contracts;
 
 namespace StaffDesk.Application.HumanResource.Validation
 {
-	public class HumanResourceUpdateValidator : AbstractValidator<HumanResourceUpdate>
+	internal class HumanResourceUpdateValidator : AbstractValidator<HumanResourceUpdate>
 	{
-		public HumanResourceUpdateValidator(IConfiguration configuration)
+		private readonly IDataContext _dataContext;
+
+		public HumanResourceUpdateValidator(IConfiguration configuration, IDataContext dataContext)
 		{
+			_dataContext = dataContext;
 			int minimumAgeYears = int.Parse(configuration["MinimumAgeYears"]);
 
 			RuleFor(r => r.FirstName)
@@ -31,7 +38,15 @@ namespace StaffDesk.Application.HumanResource.Validation
 				.WithMessage($"Resource must be at least {minimumAgeYears} years of age.");
 
 			RuleFor(r => r.DepartmentId)
-				.NotEmpty(); // TODO validate Department exists
+				.NotEmpty()
+				.MustAsync(BeAValidDepartment).WithMessage("Must be a valid Department");
+		}
+
+		private Task<bool> BeAValidDepartment(int id, CancellationToken cancellationToken)
+		{
+			var result = _dataContext.Department.AnyAsync(d => d.Id == id, cancellationToken);
+
+			return result;
 		}
 	}
 }
