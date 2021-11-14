@@ -1,7 +1,6 @@
-﻿@using StaffDesk.Domain
-@model HumanResourcesUpdateViewModel
+﻿@model HumanResourcesUpdateViewModel
 @{
-	if (Model.HumanResource == null)
+	if (Model.HumanResource.Id < 1)
 	{
 		ViewData["Title"] = "Create Human Resources";
 	}
