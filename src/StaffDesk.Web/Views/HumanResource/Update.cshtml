@@ -37,7 +37,7 @@
 
 	<div class="form-group">
 		<label asp-for="HumanResource.DateOfBirth">Date of Birth</label>
-		<input asp-for="HumanResource.DateOfBirth" class="form-control" />
+		<input asp-for="HumanResource.DateOfBirth" type="date" class="form-control" />
 		<span asp-validation-for="HumanResource.DateOfBirth" class="text-danger"></span>
 	</div>
 
@@ -60,6 +60,7 @@
 		</select>
 		<span asp-validation-for="HumanResource.DepartmentId" class="text-danger"></span>
 	</div>
-
+	
+	<input asp-for="HumanResource.Id" type="hidden"/>
 	<button type="submit" class="btn btn-success">Save</button>
 </form>

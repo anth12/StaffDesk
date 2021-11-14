@@ -63,11 +63,46 @@ namespace StaffDesk.Web.Controllers
 
 			await _humanResourceService.CrateOrUpdateAsync(humanResource);
 
-			return await UpdateView(humanResource);
+			return RedirectToAction(nameof(Index));
 		}
 
 		#endregion
 
+		#region Edit
+
+		[Route("{id}")]
+		public async Task<IActionResult> Update(int id)
+		{
+			var humanResource = await _humanResourceService.GetAsync(id);
+
+			var a = new HumanResourceUpdate
+			{
+				Id = humanResource.Id,
+				FirstName = humanResource.FirstName,
+				LastName = humanResource.LastName,
+				EmailAddress = humanResource.EmailAddress,
+				DateOfBirth = humanResource.DateOfBirth,
+				Status = humanResource.Status,
+				EmployeeNumber = humanResource.EmployeeNumber,
+				DepartmentId = humanResource.Department?.Id ?? 0,
+			};
+
+			return await UpdateView(a);
+		}
+
+		[HttpPost]
+		[Route("{id}")]
+		public async Task<IActionResult> Update(int id, HumanResourceUpdate humanResource)
+		{
+			if (!ModelState.IsValid)
+				return await UpdateView(humanResource);
+
+			await _humanResourceService.CrateOrUpdateAsync(humanResource);
+
+			return RedirectToAction(nameof(Index));
+		}
+
+		#endregion
 
 		private async Task<IActionResult> UpdateView(HumanResourceUpdate humanResource)
 		{
