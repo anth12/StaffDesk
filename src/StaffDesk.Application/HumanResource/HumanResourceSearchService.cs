@@ -15,10 +15,10 @@ namespace StaffDesk.Application.HumanResource
 		private readonly IDataContext _dataContext;
 		private readonly int _pageSize;
 
-		public HumanResourceSearchService(IDataContext dataContext, IConfiguration _configuration)
+		public HumanResourceSearchService(IDataContext dataContext, IConfiguration configuration)
 		{
 			_dataContext = dataContext;
-			int.TryParse(_configuration["TotalResultsPerPage"], out _pageSize);
+			int.TryParse(configuration["TotalResultsPerPage"], out _pageSize);
 		}
 
 		public async Task<PagedCollection<Domain.HumanResource>> QueryAsync(HumanResourceQuery request)

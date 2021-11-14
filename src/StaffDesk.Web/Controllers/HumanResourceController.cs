@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using StaffDesk.Application.Contracts.Department;
 using StaffDesk.Application.Contracts.HumanResource;
-using StaffDesk.Application.Department;
 using StaffDesk.Domain;
 using StaffDesk.Web.Models;
 

@@ -1,4 +1,3 @@
-using System;
 
 namespace StaffDesk.Web.Models
 {
