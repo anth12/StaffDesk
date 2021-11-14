@@ -48,14 +48,14 @@ namespace StaffDesk.Web.Controllers
 
 		#region Create
 		
-		[Route("new")]
+		[Route("create")]
 		public async Task<IActionResult> Create()
 		{
 			return await UpdateView(new HumanResourceUpdate());
 		}
 
 		[HttpPost]
-		[Route("new")]
+		[Route("create")]
 		public async Task<IActionResult> Create(HumanResourceUpdate humanResource)
 		{
 			if(!ModelState.IsValid)
@@ -68,14 +68,17 @@ namespace StaffDesk.Web.Controllers
 
 		#endregion
 
-		#region Edit
+		#region Update
 
 		[Route("{id}")]
 		public async Task<IActionResult> Update(int id)
 		{
 			var humanResource = await _humanResourceService.GetAsync(id);
 
-			var a = new HumanResourceUpdate
+			if (humanResource == null)
+				return NotFound();
+
+			var humanResourceUpdate = new HumanResourceUpdate
 			{
 				Id = humanResource.Id,
 				FirstName = humanResource.FirstName,
@@ -87,7 +90,7 @@ namespace StaffDesk.Web.Controllers
 				DepartmentId = humanResource.Department?.Id ?? 0,
 			};
 
-			return await UpdateView(a);
+			return await UpdateView(humanResourceUpdate);
 		}
 
 		[HttpPost]
@@ -103,7 +106,7 @@ namespace StaffDesk.Web.Controllers
 		}
 
 		#endregion
-
+		
 		private async Task<IActionResult> UpdateView(HumanResourceUpdate humanResource)
 		{
 			var departmentListItems = await GetDepartmentSelectListItemsAsync();
